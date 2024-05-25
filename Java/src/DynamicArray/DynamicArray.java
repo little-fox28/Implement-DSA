@@ -78,7 +78,14 @@ public class DynamicArray<T> implements Iterable<T> {
 
         array = newArray;
         capacity = --size;
-        size--;
+    }
+
+    public T removeAtWithoutMoving(int index) {
+        if (index >= size || index < 0) throw new IndexOutOfBoundsException();
+        T item = array[index];
+        array[index] = null;
+        capacity = --size;
+        return item;
     }
 
     public void remove(Object object) {

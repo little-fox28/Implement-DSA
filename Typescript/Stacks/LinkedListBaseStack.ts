@@ -24,8 +24,4 @@ export class LinkedListBaseStack<T> implements StackADT<T> {
   public size(): number {
     return this.list.sizeList();
   }
-
-  public [Symbol.iterator](): Iterator<T> {
-    return this.list[Symbol.iterator]();
-  }
 }

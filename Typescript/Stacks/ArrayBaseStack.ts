@@ -34,8 +34,4 @@ export class ArrayBaseStack<T> implements StackADT<T> {
   public isEmpty(): boolean {
     return this.array.isEmpty();
   }
-
-  public [Symbol.iterator](): Iterator<T> {
-    return this.array[Symbol.iterator]();
-  }
 }

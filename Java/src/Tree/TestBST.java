@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class TestBST {
     public static void main(String[] args) {
-        TreeADT<Integer> bst = new BinarySearchTree<Integer>();
+        TreeADT<Integer> bst = new BinarySearchTree<>();
 
         bst.add(5);
         bst.add(4);
@@ -17,9 +17,13 @@ public class TestBST {
 
         Iterator<Integer> traverse = bst.traverse(TreeTraverseType.IN_ORDER);
 
-        for (int i = 0; i < bst.size(); i++) {
+        while (traverse.hasNext()){
             System.out.println(traverse.next());
         }
+
+        System.out.println(bst.height());
+        System.out.println(bst.contains(10));
+        System.out.println(bst.contains(9));
 
     }
 }

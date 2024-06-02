@@ -72,27 +72,29 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeADT<T> {
             Node<T> travel = root;
             @Override
             public boolean hasNext() {
-                if (expectedCount != nodeCount) throw new ConcurrentModificationException();
-                return travel != null || !stack.isEmpty();
+                if(expectedCount != nodeCount) throw new ConcurrentModificationException();
+
+                return root != null && !stack.isEmpty();
             }
 
             @Override
             public T next() {
-                if (expectedCount != nodeCount) throw new ConcurrentModificationException();
-                while (travel != null) {
-                    stack.push(travel);
+                if(expectedCount != nodeCount) throw new ConcurrentModificationException();
+
+                while (travel != null && travel.getLeft() != null){
+                    stack.push(travel.getLeft());
                     travel = travel.getLeft();
                 }
-                if (!stack.isEmpty()) {
-                    Node<T> node = stack.pop();
-                    T result = node.getData();
+
+                Node<T> node = stack.pop();
+
+                if(node.getRight() != null) {
+                    stack.push(node.getRight());
                     travel = node.getRight();
-                    return result;
                 }
-                return null;
+                return (T) node.getData();
             }
         };
-
     }
 
     private Iterator<T> preOrderTraverse() {

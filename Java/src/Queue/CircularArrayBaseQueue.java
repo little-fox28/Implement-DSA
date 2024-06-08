@@ -28,7 +28,8 @@ public class CircularArrayBaseQueue<T> implements QueueADT<T> {
         T enQueueElem = array[front];
         array[front] = null;
         if (++front == size) front = 0;
-        return enQueueElem;
+
+        return  enQueueElem;
     }
 
     @Override

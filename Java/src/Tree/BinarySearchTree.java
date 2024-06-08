@@ -1,5 +1,7 @@
 package Tree;
 
+import Queue.LinkedListBaseQueue;
+import Queue.QueueADT;
 import Stack.LinkedListBaseStack;
 import Stack.StackADT;
 
@@ -9,6 +11,10 @@ import java.util.Iterator;
 public class BinarySearchTree<T extends Comparable<T>> implements TreeADT<T> {
     private int nodeCount = 0;
     private Node<T> root;
+
+    public BinarySearchTree() {
+        root = null;
+    }
 
     @Override
     public boolean isEmpty() {
@@ -51,17 +57,49 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeADT<T> {
         return switch (type) {
             case PRE_ORDER -> preOrderTraverse();
             case IN_ORDER -> inOrderTraverse();
-//            case POST_ORDER -> postOrderTraverse();
-//            case LEVEL_ORDER -> levelOrderTraverse();
+            case POST_ORDER -> postOrderTraverse();
+            case LEVEL_ORDER -> levelOrderTraverse();
             default -> null;
         };
     }
 
-//    private Iterator<T> levelOrderTraverse() {
-//    }
-//
-//    private Iterator<T> postOrderTraverse() {
-//    }
+    public Iterator<T> levelOrderTraverse() {
+        final int expectedCount = nodeCount;
+        QueueADT<Node<T>> queue = new LinkedListBaseQueue<Node<T>>();
+        queue.enQueue(root);
+
+        return new Iterator<T>() {
+
+            @Override
+            public boolean hasNext() {
+                if (expectedCount != nodeCount) throw new ConcurrentModificationException();
+                return root != null || !queue.isEmpty();
+            }
+
+            @Override
+            public T next() {
+                if (expectedCount != nodeCount) throw new ConcurrentModificationException();
+                if (!hasNext()) throw new RuntimeException();
+
+                Node<T> currentNode = queue.deQueue();
+
+                if (currentNode.getLeft() != null) {
+                    queue.enQueue(currentNode.getLeft());
+                }
+                if (currentNode.getRight() != null) {
+                    queue.enQueue(currentNode.getRight());
+                }
+
+                return currentNode.getData();
+            }
+        };
+    }
+
+
+
+    private Iterator<T> postOrderTraverse() {
+        return null;
+    }
 
     private Iterator<T> inOrderTraverse() {
         final int expectedCount = nodeCount;
@@ -70,29 +108,30 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeADT<T> {
 
         return new Iterator<T>() {
             Node<T> travel = root;
+
             @Override
             public boolean hasNext() {
-                if(expectedCount != nodeCount) throw new ConcurrentModificationException();
+                if (expectedCount != nodeCount) throw new ConcurrentModificationException();
 
                 return root != null && !stack.isEmpty();
             }
 
             @Override
             public T next() {
-                if(expectedCount != nodeCount) throw new ConcurrentModificationException();
+                if (expectedCount != nodeCount) throw new ConcurrentModificationException();
 
-                while (travel != null && travel.getLeft() != null){
+                while (travel != null && travel.getLeft() != null) {
                     stack.push(travel.getLeft());
                     travel = travel.getLeft();
                 }
 
                 Node<T> node = stack.pop();
 
-                if(node.getRight() != null) {
+                if (node.getRight() != null) {
                     stack.push(node.getRight());
                     travel = node.getRight();
                 }
-                return (T) node.getData();
+                return node.getData();
             }
         };
     }

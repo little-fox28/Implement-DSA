@@ -8,7 +8,9 @@ public class LinkedListBaseQueue<T> implements QueueADT<T> {
 
     private final DLinkedList<T> linkedList = new DLinkedList<T>();
 
+
     public LinkedListBaseQueue() {
+
     }
 
     public LinkedListBaseQueue(T firstElement) {

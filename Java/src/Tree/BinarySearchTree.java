@@ -79,7 +79,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeADT<T> {
             @Override
             public T next() {
                 if (expectedCount != nodeCount) throw new ConcurrentModificationException();
-                if (!hasNext()) throw new RuntimeException();
+                if (!hasNext()) throw new RuntimeException("No more elements");
 
                 Node<T> currentNode = queue.deQueue();
 
@@ -96,9 +96,35 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeADT<T> {
     }
 
 
-
     private Iterator<T> postOrderTraverse() {
-        return null;
+        final int expectedCount = nodeCount;
+        StackADT<Node<T>> stack = new LinkedListBaseStack<>();
+        StackADT<Node<T>> postOrderStack = new LinkedListBaseStack<>();
+        if (root != null) stack.push(root);
+
+        return new Iterator<T>() {
+            @Override
+            public boolean hasNext() {
+                if (expectedCount != nodeCount) throw new ConcurrentModificationException();
+                return !postOrderStack.isEmpty() || !stack.isEmpty();
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) throw new RuntimeException("No more elements");
+
+                while (!stack.isEmpty()) {
+                    Node<T> currentNode = stack.pop();
+                    postOrderStack.push(currentNode);
+
+                    if (currentNode.getLeft() != null) stack.push(currentNode.getLeft());
+                    if (currentNode.getRight() != null) stack.push(currentNode.getRight());
+                }
+
+                Node<T> nextNode = postOrderStack.pop();
+                return nextNode.getData();
+            }
+        };
     }
 
     private Iterator<T> inOrderTraverse() {

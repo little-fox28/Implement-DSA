@@ -1,4 +1,4 @@
-import {StringBuilder} from "../utils/StringBuilder";
+import {StringBuilder} from "../../utils/StringBuilder";
 import NODE from "./Node";
 import {iDBLinkedList} from "./iDBLinkedList";
 

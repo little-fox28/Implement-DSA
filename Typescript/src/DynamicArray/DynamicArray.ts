@@ -1,4 +1,4 @@
-import {StringBuilder} from "../utils/StringBuilder";
+import {StringBuilder} from "../../utils/StringBuilder";
 
 export class DynamicArray<T> {
     private array: (T | null)[];

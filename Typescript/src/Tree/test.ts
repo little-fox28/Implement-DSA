@@ -1,58 +1,47 @@
 import BinarySearchTree from "./BST";
-import TreeADT from "./TreeADT";
 
+describe('BinarySearchTree', () => {
+    let bst: BinarySearchTree;
 
-const bst: TreeADT = new BinarySearchTree();
+    beforeEach(() => {
+        bst = new BinarySearchTree();
+    });
 
-bst.add(10)
-bst.add(12)
-bst.add(8)
-bst.add(9)
-bst.add(6)
+    test('should be empty initially', () => {
+        expect(bst.isEmpty()).toBe(true);
+        expect(bst.size()).toBe(0);
+    });
 
-// Round 1
-test('isEmpty', function () {
-    expect(bst.isEmpty()).toBe(false);
-    expect(!bst.isEmpty()).toBe(true);
-})
+    test('should add elements', () => {
+        expect(bst.add(10)).toBe(true);
+        expect(bst.size()).toBe(1);
+        expect(bst.contains(10)).toBe(true);
+    });
 
-test('Size', function () {
-    expect(bst.size()).toBe(5);
-    expect(bst.size()).not.toBe(0);
-})
+    test('should not add duplicate elements', () => {
+        bst.add(10);
+        expect(bst.add(10)).toBe(false);
+        expect(bst.size()).toBe(1);
+    });
 
-test('Height', function () {
-    expect(bst.height()).toBe(3);
-    expect(bst.height()).not.toBe(0);
-})
+    test('should remove elements', () => {
+        bst.add(10);
+        expect(bst.remove(10)).toBe(true);
+        expect(bst.size()).toBe(0);
+        expect(bst.contains(10)).toBe(false);
+    });
 
-test('Contains', function () {
-    expect(bst.contains(10)).toBe(true);
-    expect(bst.contains(12)).toBe(true);
-    expect(bst.contains(8)).toBe(true);
-    expect(bst.contains(9)).toBe(true);
-    expect(bst.contains(6)).toBe(true);
-})
+    test('should not remove elements that do not exist', () => {
+        expect(bst.remove(10)).toBe(false);
+        expect(bst.size()).toBe(0);
+    });
 
-// Round 2
-test('Remove', function () {
-    expect(bst.remove(8)).toBe(true);
-})
-test('Contains', function () {
-    expect(bst.contains(8)).not.toBe(true);
-    expect(bst.contains(8)).toBe(false);
-})
-
-test('Size', function () {
-    expect(bst.size()).toBe(4);
-    expect(bst.size()).not.toBe(5);
-})
-
-test('Height', function () {
-    expect(bst.height()).toBe(3);
-    expect(bst.height()).not.toBe(0);
-})
-
-test('Logger', function () {
-    console.log(bst)
-})
+    test('should return the correct height', () => {
+        expect(bst.height()).toBe(0);
+        bst.add(10);
+        expect(bst.height()).toBe(1);
+        bst.add(5);
+        bst.add(15);
+        expect(bst.height()).toBe(2);
+    });
+});

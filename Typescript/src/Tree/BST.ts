@@ -75,7 +75,6 @@ class BinarySearchTree implements TreeADT {
                 node.setRight(this.Add(node.getRight(), elem));
             }
         }
-
         return node;
     }
 
@@ -98,9 +97,7 @@ class BinarySearchTree implements TreeADT {
                 node = null
                 return nodeLeft
             } else {
-
                 const tmp = this.maxLeft(node); // minRight(node)
-
                 node.setData(tmp)
                 node.setLeft(this.Remove(node.getLeft(), tmp))
             }

@@ -52,30 +52,32 @@ class BinarySearchTree implements TreeADT {
         return true;
     }
 
-    traverse(type: TreeOrderTraverseType): void {
+    traverse(type: TreeOrderTraverseType): number[] {
         switch (type) {
             case TreeOrderTraverseType.preOrderTraverse:
-                this.PreOrderTraverse()
-                break;
+                return this.PreOrderTraverse();
             case TreeOrderTraverseType.inOrderTraverse:
-                this.InOrderTraverse()
-                break;
+                return this.InOrderTraverse();
             case TreeOrderTraverseType.levelOrderTraverse:
-                this.LevelOrderTraverse()
-                break;
+                return this.LevelOrderTraverse();
             case TreeOrderTraverseType.postOrderTraverse:
-                this.PostOrderTraverse()
-                break;
+                return this.PostOrderTraverse();
             default:
-                break;
+                throw new Error("Invalid traversal type");
         }
     }
 
     // Private
 
-    private PreOrderTraverse() {
-        const expectedCount: number = this.nodeCount
-        const stack: StackADT<NodeTreeType> = new LinkedListBaseStack();
+    private PreOrderTraverse(): number[] {
+        const result: number[] = [];
+        const expectedCount = this.nodeCount;
+        const stack: StackADT<NodeTree> = new LinkedListBaseStack<NodeTree>();
+
+        if (this.root === null) {
+            throw new Error("Tree Empty");
+        }
+
         stack.push(this.root);
 
         while (!stack.isEmpty()) {
@@ -83,33 +85,32 @@ class BinarySearchTree implements TreeADT {
                 throw new Error("Concurrent Modification Exception");
             }
 
-            if (this.root === null && stack.isEmpty()) {
-                throw new Error("Tree Empty");
-            }
-
-            const node: NodeTree = stack.pop()!;
+            const node = stack.pop()!;
+            result.push(node.getData()!);
 
             if (node.getRight() !== null) {
-                stack.push(node.getRight())
+                stack.push(node.getRight()!);
             }
 
             if (node.getLeft() !== null) {
-                stack.push(node.getLeft())
+                stack.push(node.getLeft()!);
             }
-
-            return node.getData();
         }
+
+        return result;
     }
 
-    private InOrderTraverse() {
+    private InOrderTraverse(): number[] {
+        return [];
+    }
+
+    private LevelOrderTraverse(): number[] {
+        return [];
 
     }
 
-    private LevelOrderTraverse() {
-
-    }
-
-    private PostOrderTraverse() {
+    private PostOrderTraverse(): number[] {
+        return [];
 
     }
 

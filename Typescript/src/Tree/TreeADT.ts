@@ -13,7 +13,7 @@ interface TreeADT {
 
     remove(elem: number): boolean;
 
-    traverse( type: TreeOrderTraverseType): void;
+    traverse(type: TreeOrderTraverseType): any[];
 }
 
 

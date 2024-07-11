@@ -1,3 +1,5 @@
+import TreeOrderTraverseType from "./TreeOrderTraverseType";
+
 interface TreeADT {
     isEmpty(): boolean;
 
@@ -11,7 +13,7 @@ interface TreeADT {
 
     remove(elem: number): boolean;
 
-    // traverse(TreeTraverseType type);
+    traverse( type: TreeOrderTraverseType): void;
 }
 
 

@@ -1,5 +1,11 @@
 import TreeADT from "./TreeADT";
 import NodeTree from "./NodeTree";
+import node from "../LinkedList/Node";
+import TreeOrderTraverseType from "./TreeOrderTraverseType";
+import retryTimes = jest.retryTimes;
+import {StackADT} from "../Stacks/StackADT";
+import {LinkedListBaseStack} from "../Stacks/LinkedListBaseStack";
+import NODE from "../LinkedList/Node";
 
 type NodeTreeType = NodeTree | null;
 
@@ -46,7 +52,68 @@ class BinarySearchTree implements TreeADT {
         return true;
     }
 
+    traverse(type: TreeOrderTraverseType): void {
+        switch (type) {
+            case TreeOrderTraverseType.preOrderTraverse:
+                this.PreOrderTraverse()
+                break;
+            case TreeOrderTraverseType.inOrderTraverse:
+                this.InOrderTraverse()
+                break;
+            case TreeOrderTraverseType.levelOrderTraverse:
+                this.LevelOrderTraverse()
+                break;
+            case TreeOrderTraverseType.postOrderTraverse:
+                this.PostOrderTraverse()
+                break;
+            default:
+                break;
+        }
+    }
+
     // Private
+
+    private PreOrderTraverse() {
+        const expectedCount: number = this.nodeCount
+        const stack: StackADT<NodeTreeType> = new LinkedListBaseStack();
+        stack.push(this.root);
+
+        while (!stack.isEmpty()) {
+            if (expectedCount !== this.nodeCount) {
+                throw new Error("Concurrent Modification Exception");
+            }
+
+            if (this.root === null && stack.isEmpty()) {
+                throw new Error("Tree Empty");
+            }
+
+            const node: NodeTree = stack.pop()!;
+
+            if (node.getRight() !== null) {
+                stack.push(node.getRight())
+            }
+
+            if (node.getLeft() !== null) {
+                stack.push(node.getLeft())
+            }
+
+            return node.getData();
+        }
+    }
+
+    private InOrderTraverse() {
+
+    }
+
+    private LevelOrderTraverse() {
+
+    }
+
+    private PostOrderTraverse() {
+
+    }
+
+
     private Height(node: NodeTreeType): number {
         if (node === null) return 0;
         return 1 + Math.max(this.Height(node.getRight()), this.Height(node.getLeft()));

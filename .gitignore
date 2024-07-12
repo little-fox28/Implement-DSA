@@ -1,3 +1,5 @@
 /.idea
+./Typescript/.idea
+
 /DSA.iml
 ./node_modules

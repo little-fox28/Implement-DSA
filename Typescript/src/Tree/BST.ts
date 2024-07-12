@@ -74,7 +74,7 @@ class BinarySearchTree implements TreeADT {
         const expectedCount = this.nodeCount;
         const stack: StackADT<NodeTree> = new LinkedListBaseStack<NodeTree>();
 
-        if (this.root === null) {
+        if (this.root === null && stack.isEmpty()) {
             throw new Error("Tree Empty");
         }
 
@@ -100,8 +100,37 @@ class BinarySearchTree implements TreeADT {
         return result;
     }
 
-    private InOrderTraverse(): number[] {
-        return [];
+    public InOrderTraverse(): number[] {
+        const result: number[] = [];
+        const expectedCount = this.nodeCount;
+        const stack: StackADT<NodeTree> = new LinkedListBaseStack();
+        stack.push(this.root);
+
+        if (this.root === null && stack.isEmpty()) {
+            throw new Error("Tree Empty");
+        }
+
+        let travel = this.root;
+        while (!stack.isEmpty()) {
+            if (expectedCount !== this.nodeCount) {
+                throw new Error("Concurrent Modification Exception");
+            }
+
+            while (travel !== null && travel?.getLeft() !== null) {
+                stack.push(travel.getLeft()!);
+                travel = travel.getLeft();
+            }
+
+            let node = stack.pop();
+
+            if (node?.getRight() !== null) {
+                stack.push(node!.getRight()!);
+                travel = node!.getRight()!;
+            }
+
+            result.push(node!.getData()!);
+        }
+        return result;
     }
 
     private LevelOrderTraverse(): number[] {

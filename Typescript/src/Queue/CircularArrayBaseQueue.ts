@@ -1,4 +1,3 @@
-import { DynamicArray } from "./../DynamicArray/DynamicArray";
 import { QueueADT } from "./QueueADT";
 
 export class ArrayBaseQueue<T> implements QueueADT<T> {
@@ -36,9 +35,5 @@ export class ArrayBaseQueue<T> implements QueueADT<T> {
   }
   isEmpty(): boolean {
     return this.front == this.end;
-  }
-
-  [Symbol.iterator](): Iterator<T, any, undefined> {
-    return DynamicArray[Symbol.iterator];
   }
 }

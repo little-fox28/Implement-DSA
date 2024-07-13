@@ -6,6 +6,8 @@ import retryTimes = jest.retryTimes;
 import {StackADT} from "../Stacks/StackADT";
 import {LinkedListBaseStack} from "../Stacks/LinkedListBaseStack";
 import NODE from "../LinkedList/Node";
+import {QueueADT} from "../Queue/QueueADT";
+import {LinkedListBaseQueue} from "../Queue/CircularLinkedListBaseQueue";
 
 type NodeTreeType = NodeTree | null;
 
@@ -134,7 +136,28 @@ class BinarySearchTree implements TreeADT {
     }
 
     private LevelOrderTraverse(): number[] {
-        return [];
+        const result: number[] = [];
+        const expectedCount = this.nodeCount;
+        const queue: QueueADT<NodeTree> = new LinkedListBaseQueue(this.root);
+
+        while (!queue.isEmpty()) {
+            if (expectedCount !== this.nodeCount) {
+                throw new Error("Concurrent Modification Exception");
+            }
+
+            const currentNode = queue.deQueue();
+            result.push(currentNode!.getData()!)
+
+            if (currentNode?.getLeft()!) {
+                queue.enQueue(currentNode!.getLeft()!);
+            }
+
+            if (currentNode?.getRight() !== null) {
+                queue.enQueue(currentNode!.getRight()!);
+            }
+        }
+
+        return result;
 
     }
 

@@ -98,6 +98,18 @@ describe('BinarySearchTree', () => {
 
                 expect(bst.traverse(TreeOrderTraverseType.postOrderTraverse)).toEqual([2, 3, 4, 10, 7, 6, 5]);
             });
+
+            test('should traverse in level-order', () => {
+                bst.add(5);
+                bst.add(4);
+                bst.add(6);
+                bst.add(7);
+                bst.add(3);
+                bst.add(2);
+                bst.add(10);
+
+                expect(bst.traverse(TreeOrderTraverseType.levelOrderTraverse)).toEqual([5,4,6,3,7,2,10]);
+            });
         })
     })
 });

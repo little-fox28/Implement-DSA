@@ -8,7 +8,7 @@ export class LinkedListBaseQueue<T> implements QueueADT<T> {
     this.enQueue(firstElement);
   }
 
-  enQueue(element: T): void {
+  enQueue(element: T): T {
     return this.linkedList.addLast(element);
   }
   deQueue(): T | null {
@@ -24,8 +24,5 @@ export class LinkedListBaseQueue<T> implements QueueADT<T> {
   }
   isEmpty(): boolean {
     return this.linkedList.isEmpty();
-  }
-  [Symbol.iterator](): Iterator<T, any, undefined> {
-    return DBLinkedList[Symbol.iterator];
   }
 }

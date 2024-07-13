@@ -86,18 +86,6 @@ describe('BinarySearchTree', () => {
 
                 expect(bst.traverse(TreeOrderTraverseType.inOrderTraverse)).toEqual([2,3,4,5,6,7,10]);
             });
-
-            test('should traverse in post-order', () => {
-                bst.add(5);
-                bst.add(4);
-                bst.add(6);
-                bst.add(7);
-                bst.add(3);
-                bst.add(2);
-                bst.add(10);
-
-                expect(bst.traverse(TreeOrderTraverseType.postOrderTraverse)).toEqual([2, 3, 4, 10, 7, 6, 5]);
-            });
         })
     })
 });

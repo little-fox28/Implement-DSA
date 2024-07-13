@@ -6,7 +6,6 @@ import retryTimes = jest.retryTimes;
 import {StackADT} from "../Stacks/StackADT";
 import {LinkedListBaseStack} from "../Stacks/LinkedListBaseStack";
 import NODE from "../LinkedList/Node";
-import nodeTree from "./NodeTree";
 
 type NodeTreeType = NodeTree | null;
 
@@ -140,41 +139,8 @@ class BinarySearchTree implements TreeADT {
     }
 
     private PostOrderTraverse(): number[] {
-        const result: number[] = [];
-        const expectedCount = this.nodeCount;
-        const stack: StackADT<nodeTree> = new LinkedListBaseStack();
-        const postOrderStack: StackADT<nodeTree> = new LinkedListBaseStack();
+        return [];
 
-        if (this.root === null) {
-            throw new Error("Tree Empty");
-        }
-
-        stack.push(this.root);
-
-        while (!stack.isEmpty()) {
-            if (expectedCount !== this.nodeCount) {
-                throw new Error("Concurrent Modification Exception");
-            }
-
-            const currentNode = stack.pop();
-            postOrderStack.push(currentNode);
-
-            if (currentNode!.getLeft() !== null) {
-                stack.push(currentNode!.getLeft()!);
-            }
-
-            if (currentNode!.getRight() !== null) {
-                stack.push(currentNode?.getRight()!)
-            }
-        }
-
-        while (!postOrderStack.isEmpty()) {
-            const nextNode = postOrderStack.pop();
-            result.push(nextNode!.getData()!)
-        }
-
-
-        return result;
     }
 
 

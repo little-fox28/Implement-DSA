@@ -139,8 +139,38 @@ class BinarySearchTree implements TreeADT {
     }
 
     private PostOrderTraverse(): number[] {
-        return [];
+        const result: number[] = [];
+        const expectedCount = this.nodeCount;
+        const stack: StackADT<NodeTree> = new LinkedListBaseStack()
+        const postOrderStack: StackADT<NodeTree> = new LinkedListBaseStack()
 
+        if (this.root === null) {
+            throw new Error("Tree Empty");
+        }
+
+        stack.push(this.root);
+
+        while (!stack.isEmpty()) {
+            if (expectedCount !== this.nodeCount) {
+                throw new Error("Concurrent Modification Exception");
+            }
+
+            const currentNode = stack.pop();
+            postOrderStack.push(currentNode)
+
+            if (currentNode!.getLeft() !== null) {
+                stack.push(currentNode!.getLeft()!);
+            }
+            if (currentNode!.getRight() !== null) {
+                stack.push(currentNode!.getRight()!);
+            }
+        }
+
+        while (!postOrderStack.isEmpty()) {
+            const nextNode = postOrderStack.pop();
+            result.push(nextNode!.getData()!)
+        }
+        return result;
     }
 
 

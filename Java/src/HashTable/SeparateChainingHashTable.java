@@ -185,7 +185,7 @@ public class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
 
                 if (bucketIterator == null || !bucketIterator.hasNext()) {
                     while (++index < capacity) {
-                        if (table[index] != null || !table[index].isEmpty()) {
+                        if (table[index] != null && !table[index].isEmpty()) {
                             bucketIterator = table[index].iterator();
                             break;
                         }

@@ -21,6 +21,14 @@ public class Node<K, V> {
         this.value = value;
     }
 
+    public int getHash() {
+        return hash;
+    }
+
+    public void setHash(int hash) {
+        this.hash = hash;
+    }
+
     public Node(K key, V value) {
         this.hash = key.hashCode();
         this.key = key;

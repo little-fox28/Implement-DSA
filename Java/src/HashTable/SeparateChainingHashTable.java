@@ -2,6 +2,7 @@ package HashTable;
 
 import DLinkedList.DLinkedList;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
@@ -11,7 +12,7 @@ public class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
     private final double loadFactor;
     private int size = 0, capacity, threshold;
 
-    private DLinkedList<Node<K, V>> table;
+    private DLinkedList<Node<K, V>>[] table;
 
     public SeparateChainingHashTable() {
         this(DEFAULT_LOAD_FACTOR, DEFAULT_CAPACITY);
@@ -42,30 +43,83 @@ public class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
         return size() == 0;
     }
 
-
-    // 0xFFFFFFFFFL: change negative number to positive
     @Override
     public int hashCodeToIndex(int hashedKey) {
-        return (int) ((hashedKey * 0xFFFFFFFFFL) % capacity);
+//        return (int) ((hashedKey & 0xFFFFFFFFFL) % capacity);
+        return Math.abs(hashedKey % capacity);
     }
 
     @Override
     public void clear() {
-
+        Arrays.fill(table, null);
+        size = 0;
     }
 
     @Override
     public boolean has(K key) {
+        int index = hashCodeToIndex(key.hashCode());
+        DLinkedList<Node<K, V>> linkedList = table[index];
+
+        if (linkedList == null || linkedList.isEmpty()) return false;
+        Iterator<Node<K, V>> iterator = linkedList.iterator();
+
+        while (iterator.hasNext()) {
+            Node<K, V> node = iterator.next();
+
+            if (node.getKey().equals(key)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
-    public V insert(K key) {
+    public V insert(K key, V value) {
+        int index = hashCodeToIndex(key.hashCode());
+        DLinkedList<Node<K, V>> linkedList = table[index];
+
+        if (linkedList == null) table[index] = linkedList = new DLinkedList<Node<K, V>>();
+
+        Node<K, V> existedNode = null;
+        Iterator<Node<K, V>> iterator = linkedList.iterator();
+
+        while (iterator.hasNext()) {
+            Node<K, V> node = iterator.next();
+            if (node.getKey().equals(key)) existedNode = node;
+            if (existedNode == null) {
+                linkedList.add(new Node<>(key, value));
+                if (++size > threshold) {
+                    resizeTable();
+                }
+                return null;
+            } else {
+                V oldValue = existedNode.getValue();
+                existedNode.setValue(value);
+                return oldValue;
+            }
+        }
         return null;
+    }
+
+    private void resizeTable() {
+
     }
 
     @Override
     public V get(K key) {
+        int index = hashCodeToIndex(key.hashCode());
+        DLinkedList<Node<K, V>> linkedList = table[index];
+
+        if (linkedList == null || linkedList.isEmpty()) return null;
+        Iterator<Node<K, V>> iterator = linkedList.iterator();
+
+        while (iterator.hasNext()) {
+            Node<K, V> node = iterator.next();
+
+            if (node.getKey().equals(key)) {
+                return node.getValue();
+            }
+        }
         return null;
     }
 

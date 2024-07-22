@@ -11,7 +11,7 @@ public interface HashTableADT<K, V> extends Iterable<K> {
 
     boolean has(K key);
 
-    V insert(K key);
+    V insert(K key, V value);
 
     V get(K key);
 

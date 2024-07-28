@@ -247,17 +247,28 @@ public class DLinkedList<T> implements iDLinkedList<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            private Node<T> currentNode = head;
+            private boolean isEntering = true;
+            private Node<T> currentNode = null;
 
             @Override
             public boolean hasNext() {
+                if (isEntering){
+                    return head != null;
+                }
                 return currentNode.getNext() != null;
             }
 
             @Override
             public T next() {
-                T data = currentNode.getData();
-                currentNode = currentNode.getNext();
+                T data = null;
+                if (isEntering){
+                    data = head.getData();
+                    currentNode = head;
+                    isEntering = false;
+                } else {
+                    currentNode = currentNode.getNext();
+                    data = currentNode.getData();
+                }
                 return data;
             }
         };

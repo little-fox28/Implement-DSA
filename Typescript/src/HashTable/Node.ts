@@ -32,6 +32,17 @@ class NODE<K,V>{
     public setValue(value: V): void {
         this.value = value;
     }
+
+    public equals(other: NODE<K,V>): boolean {
+        if (other.hash !== this.hash){
+        return false;
+        }
+        return this.key === other.key;
+    };
+
+    public toString():string{
+        return `Node[hash=${this.hash}, key=${this.key}, value=${this.value}]`;
+    }
 }
 
 export default NODE;

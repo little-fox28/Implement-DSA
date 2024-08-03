@@ -1,10 +1,10 @@
-class NODE<K, V> {
+class NODE<K,V>{
     private hash: number;
     private key: K;
     private value: V;
 
-    constructor(key: K, value: V) {
-        this.hash = this.hashCode(key);
+    constructor(hash: number, key: K, value: V) {
+        this.hash = hash;
         this.key = key;
         this.value = value;
     }
@@ -33,25 +33,15 @@ class NODE<K, V> {
         this.value = value;
     }
 
-    public toString(): string {
-        return `Hash:${this.hash} | Key: ${this.key} | Values: ${this.value}`;
-    }
-
-
-    // PRIVATE
-    private hashCode(key: K): number {
-        if (typeof key === 'number') {
-            return key
-        } else if (typeof key === 'string') {
-            let hash = 0;
-            for (let i = 0; i < key.length; i++) {
-                hash = (hash << 5) - hash + key.charCodeAt(i);
-                hash |= 0;
-            }
-            return hash;
-        } else {
-            throw new Error("Unsupported type for HashFunction");
+    public equals(other: NODE<K,V>): boolean {
+        if (other.hash !== this.hash){
+        return false;
         }
+        return this.key === other.key;
+    };
+
+    public toString():string{
+        return `Node[hash=${this.hash}, key=${this.key}, value=${this.value}]`;
     }
 }
 

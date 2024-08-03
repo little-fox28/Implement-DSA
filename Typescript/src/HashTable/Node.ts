@@ -3,22 +3,22 @@ class NODE<K, V> {
     private key: K;
     private value: V;
 
-    constructor(hash: number, key: K, value: V) {
-        this.hash = this.hashCode(key);
+    constructor(key: K, value: V) {
+        this.hash = this.hashCode(key)
         this.key = key;
         this.value = value;
     }
 
     public getHash(): number {
-        return this.hash;
+       return this.hash;
     }
 
     public setHash(hash: number): void {
         this.hash = hash;
     }
 
-    public getKey(): number {
-        return this.hash;
+    public getKey(): K {
+        return this.key;
     }
 
     public setKey(key: K): void {
@@ -30,7 +30,7 @@ class NODE<K, V> {
     }
 
     public setValue(value: V): void {
-        this.value = value;
+        this.value = value;NODE<K, V>
     }
 
     public equals(other: NODE<K, V>): boolean {
@@ -38,7 +38,7 @@ class NODE<K, V> {
             return false;
         }
         return this.key === other.key;
-    };
+    }
 
     public toString(): string {
         return `Node[Hash: ${this.hash} | Key: ${this.key}, Value: ${this.value}]`;

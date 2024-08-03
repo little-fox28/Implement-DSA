@@ -1,6 +1,6 @@
 import NODE from "./Node";
 
-export interface iDBLinkedList<T> {
+export interface iDBLinkedList<T> extends Iterable<T>{
     clear(): void;
 
     sizeList(): number;

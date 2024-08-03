@@ -242,4 +242,19 @@ export class DBLinkedList<T> implements iDBLinkedList<T> {
             return sb.toString();
         }
     }
+
+    [Symbol.iterator](): Iterator<T> {
+        let currentNode = this.head;
+        return {
+            next: (): IteratorResult<T> => {
+                if (currentNode === null) {
+                    return { done: true, value: undefined as any };
+                } else {
+                    const value = currentNode.getData();
+                    currentNode = currentNode.getNext();
+                    return { done: false, value: value! };
+                }
+            }
+        };
+    }
 }

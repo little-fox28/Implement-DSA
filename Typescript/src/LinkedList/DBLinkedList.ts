@@ -1,28 +1,20 @@
-import {StringBuilder} from "../../utils/StringBuilder";
 import NODE from "./Node";
-import {iDBLinkedList} from "./iDBLinkedList";
+import { iDBLinkedList } from "./iDBLinkedList";
 
 export class DBLinkedList<T> implements iDBLinkedList<T> {
-    private size: number;
-    private head: NODE<T> | null;
-    private tail: NODE<T> | null;
-
-    constructor() {
-        this.size = 0;
-        this.head = null;
-        this.tail = null;
-    }
+    private size: number = 0;
+    private head: NODE<T> | null = null;
+    private tail: NODE<T> | null = null;
 
     public clear(): void {
-        let currentNode: NODE<T> | null = this.head;
-        while (currentNode !== null) {
-            let nextNode = currentNode.getNext();
+        let currentNode = this.head;
+        while (currentNode) {
+            const nextNode = currentNode.getNext();
             currentNode.setPrev(null);
             currentNode.setData(null);
             currentNode.setNext(null);
             currentNode = nextNode;
         }
-
         this.size = 0;
         this.head = null;
         this.tail = null;
@@ -46,99 +38,91 @@ export class DBLinkedList<T> implements iDBLinkedList<T> {
 
     public add(element: T): void {
         this.addLast(element);
-
     }
 
     public addFirst(element: T): T {
+        const newNode = new NODE<T>(null, element, this.head);
         if (this.isEmpty()) {
-            this.head = this.tail = new NODE<T>(null, element, null);
+            this.tail = newNode;
         } else {
-            let newNode = new NODE<T>(null, element, this.head);
             this.head?.setPrev(newNode);
-            this.head = newNode;
         }
+        this.head = newNode;
         this.size++;
-
         return element;
     }
 
     public addLast(element: T): T {
+        const newNode = new NODE<T>(this.tail, element, null);
         if (this.isEmpty()) {
-            this.head = this.tail = new NODE<T>(null, element, null);
+            this.head = newNode;
         } else {
-            const newNode = new NODE<T>(this.tail, element, null);
             this.tail?.setNext(newNode);
-            this.tail = newNode;
         }
+        this.tail = newNode;
         this.size++;
-
         return element;
     }
 
     public peekFirst(): T | null {
         if (this.isEmpty()) {
-            throw new Error(" Empty node list!");
-        } else {
-            return this.head!.getData();
+            throw new Error("Empty node list!");
         }
+        return this.head!.getData();
     }
 
     public peekLast(): T | null {
         if (this.isEmpty()) {
-            throw new Error(" Empty node list!");
-        } else {
-            return this.tail!.getData();
+            throw new Error("Empty node list!");
         }
+        return this.tail!.getData();
     }
 
     public removeFirst(): T | null {
         if (this.isEmpty()) {
-            throw new Error(" Empty node list! ");
-        } else {
-            const data = this.head!.getData();
-            this.head = this.head!.getNext();
-            this.size--;
-            if (this.isEmpty()) {
-                this.tail = null;
-            } else {
-                this.head?.setPrev(null);
-            }
-            return data;
+            throw new Error("Empty node list!");
         }
+        const data = this.head!.getData();
+        this.head = this.head!.getNext();
+        this.size--;
+        if (this.isEmpty()) {
+            this.tail = null;
+        } else {
+            this.head?.setPrev(null);
+        }
+        return data;
     }
 
     public removeLast(): T | null {
         if (this.isEmpty()) {
-            throw new Error(" Empty node list");
-        } else {
-            const data = this.tail!.getData();
-            this.tail = this.tail!.getPrev();
-            this.size--;
-            if (this.isEmpty()) {
-                this.head = null;
-            } else {
-                this.tail?.setNext(null);
-            }
-            return data;
+            throw new Error("Empty node list!");
         }
+        const data = this.tail!.getData();
+        this.tail = this.tail!.getPrev();
+        this.size--;
+        if (this.isEmpty()) {
+            this.head = null;
+        } else {
+            this.tail?.setNext(null);
+        }
+        return data;
     }
 
-    public remove(node: NODE<T> | null): T | null {
-        if (node?.getPrev() === null) {
+    public remove(node: NODE<T>): T | null {
+        if (node.getPrev() === null) {
             return this.removeFirst();
         }
-        if (node?.getNext() === null) {
+        if (node.getNext() === null) {
             return this.removeLast();
         }
 
-        const data = node!.getData();
+        const data = node.getData();
+        node.getPrev()?.setNext(node.getNext());
+        node.getNext()?.setPrev(node.getPrev());
 
-        node?.getPrev()?.setNext(node.getNext());
-        node?.getNext()?.setPrev(node.getPrev());
-
-        node?.setData(null);
-        node?.setPrev(null);
-        node?.setNext(null);
+        node.setData(null);
+        node.setPrev(null);
+        node.setNext(null);
 
         this.size--;
         return data;
@@ -146,22 +130,12 @@ export class DBLinkedList<T> implements iDBLinkedList<T> {
 
     public removeObj(object: Object): boolean {
         let currentNode = this.head;
-        if (object == null) {
-            while (currentNode != null) {
-                if (currentNode.getData() === null) {
-                    this.remove(currentNode);
-                    return true;
-                }
-                currentNode = currentNode.getNext();
+        while (currentNode) {
+            if (currentNode.getData() === object) {
+                this.remove(currentNode);
+                return true;
             }
-        } else {
-            while (currentNode != null) {
-                if (currentNode.getData() === object) {
-                    this.remove(currentNode);
-                    return true;
-                }
-                currentNode = currentNode.getNext();
-            }
+            currentNode = currentNode.getNext();
         }
         return false;
     }
@@ -171,51 +145,30 @@ export class DBLinkedList<T> implements iDBLinkedList<T> {
             throw new Error("Index out of bounds!");
         }
 
-        let i: number;
         let currentNode: NODE<T> | null;
-
         if (index < this.size / 2) {
-            i = 0;
             currentNode = this.head;
-            while (i !== index) {
+            for (let i = 0; i < index; i++) {
                 currentNode = currentNode!.getNext();
-                i++;
             }
         } else {
-            i = this.size - 1;
             currentNode = this.tail;
-            while (i !== index) {
+            for (let i = this.size - 1; i > index; i--) {
                 currentNode = currentNode!.getPrev();
-                i--;
             }
         }
-
-        return this.remove(currentNode);
+        return this.remove(currentNode!);
     }
 
     public indexOf(object: Object): number {
-        let index: number = 0;
+        let index = 0;
         let currentNode = this.head;
-        if (object === null) {
-            while (currentNode !== null) {
-                if (currentNode.getData() === null) {
-                    return index;
-                }
-                currentNode = currentNode.getNext();
-                index++;
+        while (currentNode) {
+            if (currentNode.getData() === object) {
+                return index;
             }
-        } else {
-            while (currentNode !== null) {
-                if (currentNode.getData() !== null) {
-                    if (currentNode !== null) {
-                        if (currentNode.getData() === object) {
-                            return index;
-                        }
-                    }
-                }
-                currentNode = currentNode!.getNext();
-                index++;
-            }
+            currentNode = currentNode.getNext();
+            index++;
         }
         return -1;
     }
@@ -226,34 +179,26 @@ export class DBLinkedList<T> implements iDBLinkedList<T> {
 
     public toString(): string {
         if (this.isEmpty()) return "null";
-        else {
-            let sb: StringBuilder = new StringBuilder();
-            let currentNode = this.head;
 
-            while (currentNode !== null) {
-                sb.append("[");
-                sb.append(currentNode.getData());
-                sb.append("]");
-                if (currentNode.getNext() !== null) {
-                    sb.append("->");
-                }
-                currentNode = currentNode.getNext();
-            }
-            return sb.toString();
+        const elements: string[] = [];
+        let currentNode = this.head;
+        while (currentNode) {
+            elements.push(`[${currentNode.getData()}]`);
+            currentNode = currentNode.getNext();
         }
+        return elements.join("->");
     }
 
     [Symbol.iterator](): Iterator<T> {
         let currentNode = this.head;
         return {
             next: (): IteratorResult<T> => {
-                if (currentNode === null) {
+                if (!currentNode) {
                     return { done: true, value: undefined as any };
-                } else {
-                    const value = currentNode.getData();
-                    currentNode = currentNode.getNext();
-                    return { done: false, value: value! };
                 }
+                const value = currentNode.getData();
+                currentNode = currentNode.getNext();
+                return { done: false, value: value! };
             }
         };
     }

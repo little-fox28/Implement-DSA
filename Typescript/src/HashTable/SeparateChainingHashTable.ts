@@ -7,10 +7,10 @@ class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
     private readonly DEFAULT_LOAD_FACTOR: number = 0.5;
 
     private size: number = 0;
-    private readonly capacity: number;
+    private capacity: number;
     private threshold: number;
     private readonly loadFactor: number = 0;
-    private table: DBLinkedList<NODE<K, V>>[] | undefined;
+    private table: Array<DBLinkedList<NODE<K, V>>> | undefined;
 
     constructor();
     constructor(capacity: number);
@@ -26,7 +26,6 @@ class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
         this.threshold = this.capacity * this.loadFactor;
     }
 
-
     clear(): void {
         this.table?.forEach(list => list.clear());
         this.size = 0;
@@ -37,12 +36,8 @@ class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
         const linkedList = this.table![index];
 
         if (linkedList == null || linkedList.isEmpty()) return null;
-        const iterator = linkedList[Symbol.iterator]();
 
-        let result = iterator.next();
-
-        while (!result.done) {
-            const node = result.value;
+        for (const node of linkedList) {
             if (node.getKey() === key) return node.getValue();
         }
 
@@ -55,11 +50,7 @@ class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
 
         if (linkedList == null || linkedList.isEmpty()) return false;
 
-        const iterator = linkedList[Symbol.iterator]();
-        let result = iterator.next();
-
-        while (!result.done) {
-            const node = result.value;
+        for (const node of linkedList) {
             if (node.getKey() === key) return true;
         }
 
@@ -69,7 +60,7 @@ class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
     hashCodeToIndex(hashedKey: number): number {
         // return Math.abs(hashedKey) % this.capacity;
         // return (~hashedKey + 1) % this.capacity;
-        return Number((hashedKey % 0xFFFFFFFFF) % this.capacity); // Remove minus
+        return Number((hashedKey % 0xFFFFFFFFF) % this.capacity); // Remove the minus
     }
 
     insert(key: K, value: V): V | null {
@@ -77,34 +68,28 @@ class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
         let linkedList = this.table![index];
 
         if (linkedList == null) {
-            this.table![index] = new DBLinkedList<NODE<K, V>>();
+            linkedList = new DBLinkedList<NODE<K, V>>();
+            this.table![index] = linkedList;
         }
 
-        let existedNode: NODE<K, V> | null = null;
-        const iterator = linkedList[Symbol.iterator]();
-        const result = iterator.next();
-
-        while (!result.done) {
-            const node = result.value;
+        for (const node of linkedList) {
             if (node.getKey() === key) {
-                existedNode = node;
+                const oldValue: V = node.getValue();
+                node.setValue(value);
+                return oldValue;
             }
         }
 
-        if (existedNode === null) {
-            linkedList.add(new NODE(key, value));
-            if (++this.size > this.threshold) {
-                this.resizeTable();
-            }
-            return null
-        } else {
-            const oldValue: V = existedNode.getValue();
-            existedNode.setValue(value);
-            return oldValue
+        linkedList.add(new NODE(key, value))
+        if (++this.size > this.threshold) {
+            this.resizeTable();
         }
+        return null
     }
 
     private resizeTable() {
+        this.capacity *= 2;
+        this.threshold = Number(this.capacity * this.loadFactor);
 
     }
 
@@ -117,15 +102,16 @@ class SeparateChainingHashTable<K, V> implements HashTableADT<K, V> {
         let linkedList = this.table![index];
 
         if (linkedList == null) {
-            this.table![index] = new DBLinkedList<NODE<K, V>>();
+            return null;
         }
 
-        const iterator = linkedList[Symbol.iterator]();
-        const result = iterator.next();
-        while (!result.done) {
-            const node: NODE<K, V> = result.value;
-            linkedList.removeObj(node)
-            return node.getValue();
+        for (const node of linkedList) {
+            if (node.getKey() === key){
+                const oldValue: V = node.getValue();
+                linkedList.removeObj(node);
+                this.size--;
+                return oldValue;
+            }
         }
         return null;
     }

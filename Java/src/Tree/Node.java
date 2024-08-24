@@ -5,13 +5,17 @@ public class Node<T extends Comparable<T>> {
     private Node<T> left;
     private Node<T> right;
 
-    public Node(Node<T> right, T data, Node<T> left) {
-        this.right = right;
+    public Node(T data, Node<T> left, Node<T> right) {
         this.data = data;
         this.left = left;
+        this.right = right;
     }
 
-    ;
+    public Node(T data) {
+        this(data, null, null);
+    }
+
+    // Getters and Setters
 
     public Node<T> getLeft() {
         return left;
@@ -39,6 +43,6 @@ public class Node<T extends Comparable<T>> {
 
     @Override
     public String toString() {
-        return data.toString();
+        return data != null ? data.toString() : "null";
     }
 }

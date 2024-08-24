@@ -6,21 +6,19 @@ public class TestBST {
     public static void main(String[] args) {
         TreeADT<Integer> bst = new BinarySearchTree<>();
 
-        bst.add(20);
-        bst.add(25);
         bst.add(10);
-        bst.add(27);
-        bst.add(11);
-        bst.add(8);
-        bst.add(9);
-        bst.add(29);
-        bst.add(2);
-
+        bst.add(5);
+        bst.add(15);
+        bst.add(3);
+        bst.add(7);
+        bst.add(12);
+        bst.add(18);
 
         Iterator<Integer> traverse = bst.traverse(TreeTraverseType.LEVEL_ORDER);
 
-        while (traverse.hasNext()){
-               System.out.println(traverse.next());
+        System.out.println("Level-order traversal:");
+        while (traverse.hasNext()) {
+            System.out.println(traverse.next());
         }
     }
 }

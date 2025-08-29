@@ -1,0 +1,72 @@
+{
+  "title": "Requirements for Dynamic Array - Add Feature",
+  "standard_reference": "Aligned with ISO/IEC/IEEE 29148:2018",
+  "feature": "Add Operation",
+  "requirements": [
+    {
+      "id": "REQ-ADD-001",
+      "type": "Functional",
+      "statement": "The Dynamic Array shall provide a method `add(element)` to insert a new element at the end of the array."
+    },
+    {
+      "id": "REQ-ADD-002",
+      "type": "Functional",
+      "statement": "The `add` operation shall increase the logical size of the array by exactly one."
+    },
+    {
+      "id": "REQ-ADD-003",
+      "type": "Functional",
+      "statement": "If the underlying storage is full, the Dynamic Array shall allocate a new storage area with at least double the previous capacity and copy existing elements into it before inserting the new element."
+    },
+    {
+      "id": "REQ-ADD-004",
+      "type": "Functional",
+      "statement": "The `add` operation shall preserve the order of previously inserted elements (i.e., the array must remain sequentially ordered by insertion index)."
+    },
+    {
+      "id": "REQ-ADD-005",
+      "type": "Performance",
+      "statement": "The amortized time complexity of the `add` operation shall be O(1)."
+    },
+    {
+      "id": "REQ-ADD-006",
+      "type": "Non-Functional - Reliability",
+      "statement": "The `add` operation shall handle at least 1,000,000 consecutive insertions without data corruption or memory leaks."
+    },
+    {
+      "id": "REQ-ADD-007",
+      "type": "Non-Functional - Memory Efficiency",
+      "statement": "The Dynamic Array shall minimize unused capacity by ensuring that allocated but unused memory shall not exceed 100% of the logical size after expansion."
+    },
+    {
+      "id": "REQ-ADD-008",
+      "type": "Non-Functional - Usability",
+      "statement": "The `add` method shall return a success indicator or updated array size to confirm successful insertion."
+    },
+    {
+      "id": "REQ-ADD-009",
+      "type": "Constraint",
+      "statement": "The `add` method shall throw an exception or error if the input element is null (if null elements are not supported)."
+    },
+    {
+      "id": "REQ-ADD-010",
+      "type": "Constraint",
+      "statement": "The Dynamic Array shall not allow adding elements beyond system memory limits and shall gracefully fail with an error message."
+    },
+    {
+      "id": "REQ-ADD-011",
+      "type": "Non-Functional - Thread Safety",
+      "statement": "If used in a concurrent environment, the `add` method shall be synchronized or protected to prevent race conditions."
+    },
+    {
+      "id": "REQ-ADD-012",
+      "type": "Verification",
+      "statement": "The implementation of `add` shall be verified by unit tests that insert elements into an initially empty array, into an array with available capacity, and into an array requiring expansion."
+    },
+    {
+      "id": "REQ-ADD-013",
+      "type": "Verification",
+      "statement": "Stress tests shall be performed to confirm that the `add` method maintains performance and correctness under 10^6 insertions."
+    }
+  ]
+}

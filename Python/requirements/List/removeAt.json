@@ -1,0 +1,72 @@
+{
+  "title": "Requirements for Dynamic Array - removeAt Feature",
+  "standard_reference": "Aligned with ISO/IEC/IEEE 29148:2018",
+  "feature": "removeAt Operation",
+  "requirements": [
+    {
+      "id": "REQ-REM-001",
+      "type": "Functional",
+      "statement": "The Dynamic Array shall provide a method `removeAt(index)` to remove the element at the specified valid index."
+    },
+    {
+      "id": "REQ-REM-002",
+      "type": "Functional",
+      "statement": "The `removeAt(index)` operation shall shift all subsequent elements one position to the left to fill the gap."
+    },
+    {
+      "id": "REQ-REM-003",
+      "type": "Functional",
+      "statement": "The `removeAt(index)` operation shall decrease the logical size of the array by exactly one."
+    },
+    {
+      "id": "REQ-REM-004",
+      "type": "Functional",
+      "statement": "The `removeAt(index)` operation shall return the removed element to the caller."
+    },
+    {
+      "id": "REQ-REM-005",
+      "type": "Constraint",
+      "statement": "The `removeAt(index)` operation shall throw an exception or error if the index is out of bounds (index < 0 or index >= logical size)."
+    },
+    {
+      "id": "REQ-REM-006",
+      "type": "Constraint",
+      "statement": "If the array is empty, the `removeAt(index)` operation shall throw an exception or return a defined error code."
+    },
+    {
+      "id": "REQ-REM-007",
+      "type": "Performance",
+      "statement": "The worst-case time complexity of the `removeAt(index)` operation shall be O(n), where n is the logical size of the array."
+    },
+    {
+      "id": "REQ-REM-008",
+      "type": "Non-Functional - Reliability",
+      "statement": "The `removeAt(index)` operation shall ensure that no data corruption occurs after repeated insertions and deletions of at least 1,000,000 operations."
+    },
+    {
+      "id": "REQ-REM-009",
+      "type": "Non-Functional - Memory Efficiency",
+      "statement": "The `removeAt(index)` operation shall release references to removed elements immediately to enable garbage collection or memory reuse."
+    },
+    {
+      "id": "REQ-REM-010",
+      "type": "Non-Functional - Usability",
+      "statement": "The `removeAt(index)` method shall provide a clear error message when an invalid index is passed."
+    },
+    {
+      "id": "REQ-REM-011",
+      "type": "Non-Functional - Thread Safety",
+      "statement": "If used in a concurrent environment, the `removeAt(index)` method shall be synchronized or otherwise protected to prevent race conditions."
+    },
+    {
+      "id": "REQ-REM-012",
+      "type": "Verification",
+      "statement": "The implementation of `removeAt(index)` shall be verified by unit tests covering removal from the first element, the last element, and a middle element."
+    },
+    {
+      "id": "REQ-REM-013",
+      "type": "Verification",
+      "statement": "Stress tests shall confirm that repeated removals maintain correct array order, size tracking, and memory cleanup under 10^6 operations."
+    }
+  ]
+}

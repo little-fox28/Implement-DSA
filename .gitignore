@@ -1,5 +1,27 @@
-/.idea
-./Typescript/.idea
+# IDE files
+.idea/
+*.iml
+.vscode
 
-/DSA.iml
-./node_modules
+# Mac
+.DS_Store
+
+# Logs
+*.log
+
+# Temp files
+*~
+*.swp
+
+#python
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+ENV/
+.venv/
+env.bak/
+venv.bak/

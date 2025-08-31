@@ -1,5 +1,5 @@
 import pytest
-from Python.List.dynamic_array import DynamicArray
+from List.dynamic_array import DynamicArray
 
 class TestIsContains:
     @pytest.fixture

@@ -1,5 +1,4 @@
 import ctypes
-from operator import concat
 from typing import Generic,TypeVar
 
 T = TypeVar('T') #Generic type
@@ -20,6 +19,9 @@ class  DynamicArray(Generic[T]):
         self._array_ = static_array(capacity)
 
     def add(self, element: T) -> None:
+        if element is None:
+            raise ValueError("Cannot add None as an element")
+
         if self._size_ >= self._capacity_:
             if self._capacity_ == 0:
                 self._capacity_ += 1
@@ -29,10 +31,12 @@ class  DynamicArray(Generic[T]):
             new_array = static_array(self._capacity_)
             for i in range(self.size()):
                 new_array[i] = self._array_[i]
+            self._array_ = None
             self._array_ = new_array
 
         self._array_[self._size_] = element
         self._size_ += 1
+        return None
 
     def remove_at(self, remove_index: int) -> T:
         if not 0 <= remove_index < self._size_:
@@ -45,6 +49,20 @@ class  DynamicArray(Generic[T]):
         self._array_[self.size() -1] = None
         self._size_ -= 1
         return removed_element
+
+    def remove_element(self, element: T) -> None:
+        remove_index: int = self.index_of(element)
+        self.remove_at(remove_index)
+
+    def index_of(self, element: T) -> int:
+        for i in range(self.size()):
+            if element is None:
+                if self._array_[i] is None:
+                    return i
+            if element == self._array_[i]:
+                return i
+        # return -1
+        raise ValueError("Value not found")
 
     def size(self) -> int:
         return self._size_

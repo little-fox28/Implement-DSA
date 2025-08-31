@@ -1,0 +1,91 @@
+{
+  "title": "Requirements for Dynamic Array - Remove a Single Element Feature",
+  "standard_reference": "Aligned with ISO/IEC/IEEE 29148:2018, ISO/IEC 25010:2011, RFC 8259",
+  "feature": "Remove a Single Element",
+  "requirements": [
+    {
+      "id": "REQ-REM-001",
+      "type": "Functional",
+      "statement": "The Dynamic Array shall provide a method `remove_at(index)` to remove the element at the specified valid index."
+    },
+    {
+      "id": "REQ-REM-002",
+      "type": "Functional",
+      "statement": "The Dynamic Array shall provide a method `remove_element(value)` to remove the first occurrence of the specified value."
+    },
+    {
+      "id": "REQ-REM-003",
+      "type": "Functional",
+      "statement": "The system shall update the JSON file after removal to reflect the new state of the dynamic array."
+    },
+    {
+      "id": "REQ-REM-004",
+      "type": "Functional",
+      "statement": "If the provided index is out of range, the system shall return an error response."
+    },
+    {
+      "id": "REQ-REM-005",
+      "type": "Functional",
+      "statement": "If the provided value does not exist in the array, the system shall return a 'Not Found' error."
+    },
+    {
+      "id": "REQ-REM-006",
+      "type": "Functional",
+      "statement": "The system shall guarantee data integrity when multiple processes access the JSON file concurrently."
+    },
+    {
+      "id": "REQ-REM-007",
+      "type": "Non-Functional",
+      "statement": "The removal operation shall run in O(n) time complexity for arrays up to 1,000,000 elements."
+    },
+    {
+      "id": "REQ-REM-008",
+      "type": "Non-Functional",
+      "statement": "The system shall guarantee atomic write operations to the JSON file to prevent corruption."
+    },
+    {
+      "id": "REQ-REM-009",
+      "type": "Non-Functional",
+      "statement": "The system shall provide meaningful error messages such as 'Index out of bounds' or 'Value not found'."
+    },
+    {
+      "id": "REQ-REM-010",
+      "type": "Non-Functional",
+      "statement": "The implementation shall be compatible with Python ≥ 3.9 and work across Linux, Windows, and macOS."
+    }
+  ],
+  "use_case": {
+    "id": "UC-REM-001",
+    "actor": "User / System Module",
+    "precondition": "JSON file with a valid dynamic array exists.",
+    "trigger": "User requests element removal using either `remove_at(index)` or `remove_element(value)`.",
+    "steps": [
+      "User specifies index or value.",
+      "System validates the request.",
+      "System removes the element.",
+      "System rewrites the JSON file.",
+      "System confirms success."
+    ],
+    "postcondition": "JSON file contains the updated dynamic array with the element removed."
+  },
+  "examples": {
+    "before": {
+      "dynamic_array": [10, 20, 30, 40, 50]
+    },
+    "operation_by_index": "remove_at(2)",
+    "result_by_index": {
+      "dynamic_array": [10, 20, 40, 50]
+    },
+    "operation_by_value": "remove_element(30)",
+    "result_by_value": {
+      "dynamic_array": [10, 20, 40, 50]
+    }
+  },
+  "acceptance_criteria": [
+    "Removing by index correctly shifts remaining elements.",
+    "Removing by value deletes only the first occurrence of the value.",
+    "JSON file remains valid according to RFC 8259.",
+    "System returns meaningful error messages.",
+    "Operation executes within O(n) complexity."
+  ]
+}

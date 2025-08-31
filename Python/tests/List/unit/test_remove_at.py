@@ -1,6 +1,6 @@
 import pytest
 
-from List.dynamic_array import DynamicArray
+from Python.List.dynamic_array import DynamicArray
 
 
 #REQ-REM-001, REQ-REM-004, REQ-REM-012

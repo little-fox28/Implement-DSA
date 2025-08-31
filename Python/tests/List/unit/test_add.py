@@ -1,5 +1,6 @@
 import pytest
-from List.dynamic_array import DynamicArray
+
+from Python.List.dynamic_array import DynamicArray
 
 
 # This test suite is based on the requirements_engineering in List/requirements_engineering/add.json

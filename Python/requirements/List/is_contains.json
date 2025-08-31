@@ -1,0 +1,60 @@
+{
+  "title": "Requirements for Dynamic Array - is_contains Feature",
+  "standard_reference": "Aligned with ISO/IEC/IEEE 29148:2018, ISO/IEC 25010:2011, RFC 8259",
+  "feature": "is_contains Operation",
+  "requirements": [
+    {
+      "id": "REQ-CON-001",
+      "type": "Functional",
+      "statement": "The Dynamic Array shall provide a method `is_contains(value)` to check if the specified value exists in the array."
+    },
+    {
+      "id": "REQ-CON-002",
+      "type": "Functional",
+      "statement": "`is_contains(value)` shall return `true` if the value is found in the array, otherwise `false`."
+    },
+    {
+      "id": "REQ-CON-003",
+      "type": "Functional",
+      "statement": "The method shall not modify the array or its JSON file when performing the check."
+    },
+    {
+      "id": "REQ-CON-004",
+      "type": "Non-Functional",
+      "statement": "The search operation shall run in O(n) time complexity for arrays of up to 1,000,000 elements."
+    },
+    {
+      "id": "REQ-CON-005",
+      "type": "Non-Functional",
+      "statement": "The implementation shall be compatible with Python ≥ 3.9 across Linux, Windows, and macOS."
+    }
+  ],
+  "use_case": {
+    "id": "UC-CON-001",
+    "actor": "User / System Module",
+    "precondition": "JSON file with a valid dynamic array exists.",
+    "trigger": "User calls `is_contains(value)`.",
+    "steps": [
+      "User specifies the value to check.",
+      "System iterates through the array.",
+      "If the value is found, system returns `true`.",
+      "If the value is not found, system returns `false`."
+    ],
+    "postcondition": "The system responds with a boolean value without modifying the JSON file."
+  },
+  "examples": {
+    "array": {
+      "dynamic_array": [10, 20, 30, 40, 50]
+    },
+    "operation_true": "is_contains(30)",
+    "result_true": true,
+    "operation_false": "is_contains(99)",
+    "result_false": false
+  },
+  "acceptance_criteria": [
+    "The method returns true when the value exists in the array.",
+    "The method returns false when the value does not exist in the array.",
+    "The operation does not modify the JSON file.",
+    "The method executes in O(n) time complexity."
+  ]
+}

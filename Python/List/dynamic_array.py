@@ -56,13 +56,20 @@ class  DynamicArray(Generic[T]):
 
     def index_of(self, element: T) -> int:
         for i in range(self.size()):
-            if element is None:
+            if element is None: # Support finding for "None" data type
                 if self._array_[i] is None:
                     return i
             if element == self._array_[i]:
                 return i
         # return -1
         raise ValueError("Value not found")
+
+    def is_contains(self, element: T) -> bool:
+        try:
+            self.index_of(element)
+            return True
+        except ValueError:
+            return False
 
     def size(self) -> int:
         return self._size_

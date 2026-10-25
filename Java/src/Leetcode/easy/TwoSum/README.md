@@ -1,6 +1,6 @@
 # So Sánh Các Phương Pháp Giải Quyết Bài Toán Two Sum
 
-Tài liệu phân tích và so sánh chi tiết 2 phương pháp giải bài toán **Two Sum** được triển khai trong [`Solution.java`](./Solution.java):
+Tài liệu phân tích và so sánh chi tiết 2 phương pháp giải bài toán **Two Sum** được triển khai trong [`Solution.java`](Solution.java):
 1. **Brute Force (Vét cạn)**
 2. **Hash Map (Bảng băm sử dụng `SeparateChainingHashTable`)**
 

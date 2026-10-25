@@ -13,6 +13,11 @@
 *~
 *.swp
 
+# Java compiled output & build artifacts
+out/
+Java/bin/
+*.class
+
 #python
 __pycache__/
 .pytest_cache/

@@ -16,6 +16,9 @@
 # Java compiled output & build artifacts
 out/
 Java/bin/
+Java/out/
+Java/src/**/*.class
+**/*.class
 *.class
 
 #python
